@@ -1,43 +1,47 @@
 import oscP5.*;
 import netP5.*;
+import gifAnimation.*;
 
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 PImage foto1, foto2, foto3;
+Gif gif1;
 float boton;
 String estado;
 boolean gatillo = false;
 
 void setup(){
-  size( 1920, 1080 );
+   fullScreen();
   textAlign( CENTER );
   textSize( 20 );
   
   estado = "inicio";
   
   oscP5 = new OscP5(this,9000);
-    foto1 = loadImage("intro2.png");
-  foto2 = loadImage("intro222.png");
-    foto3 = loadImage("tercera.png");
+    foto1 = loadImage("imagen0.png");
+    foto2 = loadImage("imagen1.png");
+    foto3 = loadImage("imagen2.png");
+    gif1= new Gif (this, "corazon.gif");
+    gif1.loop();
   
-  //myRemoteLocation = new NetAddress("192.168.0.209",12000);
+  myRemoteLocation = new NetAddress("192.168.0.28",12000);
   
 }
 
 void draw() {
   text( estado, width/2, height/2 );
   if( estado.equals("inicio") ){
-    
-     image(foto1, 0, 0);
+      image(gif1, height/2, width/2, 300,300  );
+     image(foto1, 0, 0, 1366,768);
   }
   
   if( estado.equals("inicio") && gatillo ){
-    image(foto2, 0, 0);
+    image(foto2, 0, 0, 1366,768);
     estado = "pantalla uno";
     gatillo = false;
   }
   if( estado.equals("pantalla uno") && gatillo ){
-    image(foto3, 0, 0);
+    image(foto3, 0, 0, 1366,768);
     estado = "pantalla dos";
     gatillo = false;
   }

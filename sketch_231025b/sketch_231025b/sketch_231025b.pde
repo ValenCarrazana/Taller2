@@ -11,13 +11,20 @@ import netP5.*;
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
-String dosValores = "0";
+//String dosValores = "0";
+PImage foto, foto1;
+  int x = 350;
+  int y = 650;
+  int radius = 200;
 
 void setup() {
-  size(400,400);
+  fullScreen();
   frameRate(25);
   /* start oscP5, listening for incoming messages at port 12000 */
   oscP5 = new OscP5(this,12000);
+  
+  foto = loadImage("celu0.png");
+   foto1 = loadImage("celu1.png");
   
   /* myRemoteLocation is a NetAddress. a NetAddress takes 2 parameters,
    * an ip address and a port number. myRemoteLocation is used as parameter in
@@ -26,14 +33,19 @@ void setup() {
    * and the port of the remote location address are the same, hence you will
    * send messages back to this sketch.
    */
-  myRemoteLocation = new NetAddress("192.168.0.209",9000);
+  myRemoteLocation = new NetAddress("192.168.0.28",9000);
+  
+  ellipseMode(RADIUS);
+  
 }
 
 
 void draw() {
+  background(0);
+  image (foto,0,0,width,height);
   
-  background(0);  
   
+ellipse(x,y,radius,radius);
 }
 
 
@@ -43,24 +55,43 @@ void draw() {
  }
 
 void touchStarted(){
-//  /* send the message */
+
+   
+   float d = dist(mouseX, mouseY, x,y);
+  if(d< radius){
+    //  /* send the message */
    OscMessage myMessage1 = new OscMessage("/mensaje1/boton1/0" );
    myMessage1.add( 2.0 );
    oscP5.send(myMessage1, myRemoteLocation);
+      image (foto1,0,0,width,height);
+  }
+  
 }
 
 void touchIsMoving(){
 //  /* send the message */
-   OscMessage myMessage1 = new OscMessage("/mensaje1/boton1/0" );
+
+   
+   float d = dist(mouseX, mouseY, x,y);
+  if(d< radius){
+       OscMessage myMessage1 = new OscMessage("/mensaje1/boton1/0" );
    myMessage1.add( 2.0 );
    oscP5.send(myMessage1, myRemoteLocation);
+      image (foto1,0,0,width,height);
+  }
 }
 
 void touchEnded(){
 
+  
+  float d = dist(mouseX, mouseY, x,y);
+  if(d< radius){
+    
   OscMessage myMessage1 = new OscMessage("/mensaje1/boton1/1" );
   myMessage1.add( 1.0 );
   oscP5.send(myMessage1, myRemoteLocation);
+      image (foto1,0,0,width,height);
+  }
   
 }
 
